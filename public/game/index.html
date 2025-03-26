@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>STONE GAME</title>
+        <link rel="stylesheet" href="/game/style.css">
+    </head>
+    <body>
+        <div id="header">
+        </div>
+        <div id="main">
+            <div id="gameRule">
+                <img src="/game/BallTexture/stoneGame.png" alt="header">
+                <img src="/game/BallTexture/evolution.png" alt="header">
+                <button id="gameDetail">ゲームルール</button>
+            </div>
+            <div id="gameContainer">
+                <canvas id="gameArea" width="430" height="720"></canvas>
+                <p class="bodyCounter">
+                    <span>0</span>
+                </p>
+                <div id="nextBallContainer">
+                    <span>NEXT</span>
+                    <div id="nextBall"></div>
+                </div>
+                <canvas id="effectCanvas"></canvas>
+                <canvas id="comboCanvas"></canvas>
+            </div>
+            <div id="gameNote">
+                <h2 id="introduction">惑星紹介</h2>
+                <ul class="planets">
+                    <li class="planet">
+                        <img src="/game/BallTexture/stone.png">
+                        <span>ストーン</span>
+                    </li>
+                    <li class="planet">
+                        <img src="/game/BallTexture/moon.png">
+                        <span>月</span>
+                    </li>
+                    <li class="planet">
+                        <img src="/game/BallTexture/mercury.png">
+                        <span>水星</span>
+                    </li>
+                    <li class="planet">
+                        <img src="/game/BallTexture/mars.png">
+                        <span>火星</span>
+                    </li>
+                    <li class="planet">
+                        <img src="/game/BallTexture/venus.png">
+                        <span>金星</span>
+                    </li>
+                    <li class="planet">
+                        <img src="/game/BallTexture/earth.png">
+                        <span>地球</span>
+                    </li>
+                    <li class="planet">
+                        <img src="/game/BallTexture/neptune.png">
+                        <span>海王星</span>
+                    </li>
+                    <li class="planet">
+                        <img src="/game/BallTexture/uranus.png">
+                        <span>天王星</span>
+                    </li>
+                    <li class="planet">
+                        <img src="/game/BallTexture/saturn.png">
+                        <span>土星</span>
+                    </li>
+                    <li class="planet">
+                        <img src="/game/BallTexture/jupiter.png">
+                        <span>木星</span>
+                    </li>
+                    <li class="planet">
+                        <img src="/game/BallTexture/sun.png">
+                        <span>太陽</span>
+                    </li>
+                </ul>
+            <div>
+        </div>
+        <div id="overlay"></div>
+        <div id="gameDialog">
+            <div id="dialog-header">
+                <div id="dialog-title">
+                    <img src="/game/BallTexture/telescope.png">
+                    <h2>ゲームルール</h2>
+                </div>
+                <button id="closeDialog">
+                    <img src="/game/BallTexture/closeButton.png">
+                </button>
+            </div>
+            <div class="dialog-content">
+                <img src="/game/BallTexture/evolution.png" alt="header">
+                <div id="rule-content">
+                    <p>ゲーム説明！</p>
+                    <p>🌟 目標：ボールを進化させ、太陽を作ろう！</p>
+                    <p>🪐 同じ惑星を合体させると、より大きな星に進化！</p>
+                    <p>💥 画面上部まで積み上がるとゲームオーバー！</p>
+                    <p>🚀 さあ、宇宙の創造主 になれるかな！？</p>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.17.1/matter.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.js"></script>
+        <script src="/game/ball-game.js"></script>
+        <script src="/game/common.js"></script>
+    </body>
+</html>
