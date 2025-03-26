@@ -8,13 +8,13 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('guild_player', function (Blueprint $table) {
-            $table->id(); // BIGINT
+            $table->id();
             $table->foreignId('player_id')->constrained('players')->onDelete('cascade');
             $table->unsignedBigInteger('guild_id');
             $table->timestamp('last_played_at')->nullable();
             $table->timestamps();
 
-            $table->unique(['player_id', 'guild_id']); // Tránh trùng
+            $table->unique(['player_id', 'guild_id']);
         });
     }
 

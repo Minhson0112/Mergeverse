@@ -8,7 +8,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('players', function (Blueprint $table) {
-            $table->id(); // BIGINT
+            $table->id();
             $table->string('discord_id')->unique();
             $table->string('username');
             $table->integer('highest_score')->default(0);
