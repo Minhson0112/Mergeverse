@@ -79,6 +79,7 @@
 
     <script>
         const DISCORD_ID = "{{ $discord_id }}";
+        const USERNAME = "{{ $username }}";
     </script>
 </body>
 </html>

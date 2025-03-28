@@ -18,6 +18,6 @@ class GameController extends Controller
             ], 400);
         }
 
-        return view('game.index', ['discord_id' => $discordId]);
+        return view('game.index', ['discord_id' => $discordId, 'username' => $userName]);
     }
 }

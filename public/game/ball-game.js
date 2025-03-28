@@ -193,6 +193,9 @@ const preloadTextures = (() => {
 function getDiscordIdFromBlade() {
     return typeof DISCORD_ID !== "undefined" ? DISCORD_ID : null;
 }
+function getDiscordUserNameFromBlade() {
+    return typeof USERNAME !== "undefined" ? USERNAME : null;
+}
 /**
  * EngineとWorldの初期化
  */
@@ -899,6 +902,7 @@ setInterval(() => {
                     if (velocity < STILLNESS_VELOCITY && !alertFlag) {
                         alertFlag = true;
                         let discordId = getDiscordIdFromBlade();
+                        let discordName = getDiscordUserNameFromBlade();
                         fetch("/api/game-over", {
                             method: "POST",
                             headers: {
@@ -906,6 +910,7 @@ setInterval(() => {
                             },
                             body: JSON.stringify({
                                 discord_id: discordId,
+                                username: discordName,
                                 score: score,
                                 sun_time: sunCreateTime,
                             }),
