@@ -9,7 +9,7 @@ const { Engine, Render, World, Body, Bodies, Composite, Mouse, Events } =
  */
 
 // 重力加速度
-const GRAVITY = 1;
+const GRAVITY = 2;
 
 // ゲームエリアの幅と高さ（ピクセル単位）
 const GAME_AREA_WIDTH = 430;
@@ -130,6 +130,9 @@ let blinkInterval;
 // プレイヤーのスコア
 let score = 0;
 
+let sunCreateTime = null;
+let gameStartTime = null;
+
 // ゲームオーバーのアラートを表示したかどうかを管理するフラグ
 let alertFlag = false;
 
@@ -187,6 +190,9 @@ const preloadTextures = (() => {
     });
 })();
 
+function getDiscordIdFromBlade() {
+    return typeof DISCORD_ID !== "undefined" ? DISCORD_ID : null;
+}
 /**
  * EngineとWorldの初期化
  */
@@ -679,6 +685,10 @@ Events.on(engine, "collisionStart", (event) => {
                         (ball) => ball.name === typeA,
                     );
                     const newIndex = ballIndex + 1;
+                    if (newIndex >= BALL_TYPES.length - 2 && sunCreateTime === null && gameStartTime !== null) {
+                        sunCreateTime = Date.now() - gameStartTime;
+                        console.log("🌞 Đã tạo Mặt Trời sau: " + sunCreateTime + " ms");
+                    }
                     if (newIndex >= BALL_TYPES.length - 1) {
                         blackHoleAnimation(newer, older);
                         return;
@@ -888,6 +898,25 @@ setInterval(() => {
                     );
                     if (velocity < STILLNESS_VELOCITY && !alertFlag) {
                         alertFlag = true;
+                        let discordId = getDiscordIdFromBlade();
+                        fetch("/api/game-over", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                discord_id: discordId,
+                                score: score,
+                                sun_time: sunCreateTime,
+                            }),
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log("✅ Game data sent successfully:", data);
+                        })
+                        .catch(error => {
+                            console.error("❌ Error sending game data:", error);
+                        });
                         try {
                             let gameOverModal = new tingle.modal({
                                 footer: true,
@@ -1020,6 +1049,7 @@ preloadTextures.then(() => {
     try {
         updateNextDisplay();
         createMovingBall(nextBallIndex);
+        gameStartTime = Date.now();
     } catch (error) {
         console.error("Error during initial setup:", error);
     }
