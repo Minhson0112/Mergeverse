@@ -12,4 +12,23 @@ class PlayersRepository extends BaseRepository implements PlayersRepositoryInter
     {
         return Player::class;
     }
+
+    public function findByDiscordId(string $discordId)
+    {
+        return $this->model->where('discord_id', $discordId)->first();
+    }
+
+    public function create(array $data)
+    {
+        return $this->model->create($data);
+    }
+
+    public function update(int $id, array $data)
+    {
+        $player = $this->model->find($id);
+        if ($player) {
+            return $player->update($data);
+        }
+        return false;
+    }
 }

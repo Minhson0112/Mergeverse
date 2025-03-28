@@ -1030,7 +1030,7 @@ gameArea.addEventListener("mouseup", (event) => {
             setTimeout(() => {
                 try {
                     const currentIndex = nextBallIndex;
-                    nextBallIndex = ballCount < 2 ? 0 : SPAWN_RATE[Math.floor(Math.random() * SPAWN_RATE.length)];
+                    nextBallIndex = 8;
                     updateNextDisplay();
                     createMovingBall(currentIndex);
                     canMoveBall = true;
