@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->string('discord_id')->unique();
             $table->string('username');
             $table->integer('highest_score')->default(0);
-            $table->timestamp('sun_time')->nullable();
+            $table->unsignedBigInteger('sun_time')->nullable();
             $table->timestamps();
         });
     }
