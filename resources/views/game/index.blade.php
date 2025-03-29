@@ -83,7 +83,6 @@
         const USERNAME = "{{ $username }}";
         const GUILD_ID = "{{ $guild_id }}";
     </script>
-    
-    <audio id="plong-sound" src="{{ asset('game/SoundEffect/plong.mp3') }}" preload="auto"></audio>
+
 </body>
 </html>

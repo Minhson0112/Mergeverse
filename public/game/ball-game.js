@@ -192,6 +192,25 @@ const preloadTextures = (() => {
     });
 })();
 
+async function preloadSounds() {
+    const sounds = {
+        "plong": "/game/SoundEffect/plong.mp3",
+        // thêm âm khác nếu cần
+    };
+
+    for (const [id, path] of Object.entries(sounds)) {
+        try {
+            const response = await fetch(path);
+            const blob = await response.blob();
+            const blobUrl = URL.createObjectURL(blob);
+            const audio = new Audio(blobUrl);
+            soundCache[id] = audio;
+        } catch (err) {
+            console.error("Failed to preload sound:", id, err);
+        }
+    }
+}
+
 function getDiscordIdFromBlade() {
     return typeof DISCORD_ID !== "undefined" ? DISCORD_ID : null;
 }
@@ -453,13 +472,13 @@ const updateScore = (points = 0) => {
  * @param {string} soundFile // 再生するサウンドファイルのパス
  */
 function playSoundById(id) {
-    const audio = document.getElementById(id);
+    const audio = soundCache[id];
     if (audio) {
-        const clone = audio.cloneNode(); // tạo bản sao để phát đồng thời
+        const clone = audio.cloneNode();
         clone.volume = 1;
         clone.play().catch(err => console.error("Play error:", err));
     } else {
-        console.warn("Audio not found:", id);
+        console.warn("Sound not found in cache:", id);
     }
 }
 
@@ -740,7 +759,7 @@ Events.on(engine, "collisionStart", (event) => {
                                 (ball) => ball !== older && ball !== newer,
                             );
                             balls.push(newBall);
-                            playSoundById("plong-sound");
+                            playSoundById("plong");
                             World.add(engine.world, newBall);
                             updateScore(SCORE_TABLE[newIndex]);
                             // 花火アニメーション
@@ -1065,6 +1084,7 @@ gameArea.addEventListener("mouseup", (event) => {
  */
 preloadTextures.then(() => {
     try {
+        preloadSounds();
         updateNextDisplay();
         createMovingBall(nextBallIndex);
         gameStartTime = Date.now();
