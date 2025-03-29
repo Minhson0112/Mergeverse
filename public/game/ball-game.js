@@ -192,19 +192,6 @@ const preloadTextures = (() => {
     });
 })();
 
-function preloadSounds() {
-    const soundFiles = [
-        "/game/SoundEffect/plong.mp3",
-    ];
-
-    soundFiles.forEach(file => {
-        const audio = new Audio(file);
-        audio.load(); // preload
-        soundCache[file] = audio;
-    });
-}
-
-
 function getDiscordIdFromBlade() {
     return typeof DISCORD_ID !== "undefined" ? DISCORD_ID : null;
 }
@@ -462,17 +449,17 @@ const updateScore = (points = 0) => {
 /**
  * 指定されたサウンドファイルを再生する
  *
- * @function playSound
+ * @function playSoundById
  * @param {string} soundFile // 再生するサウンドファイルのパス
  */
-function playSound(soundFile) {
-    const cached = soundCache[soundFile];
-    if (cached) {
-        const clone = cached.cloneNode(); // cho phép overlap âm thanh
+function playSoundById(id) {
+    const audio = document.getElementById(id);
+    if (audio) {
+        const clone = audio.cloneNode(); // tạo bản sao để phát đồng thời
         clone.volume = 1;
-        clone.play().catch(error => console.error("Error playing sound:", error));
+        clone.play().catch(err => console.error("Play error:", err));
     } else {
-        console.warn("Sound not cached:", soundFile);
+        console.warn("Audio not found:", id);
     }
 }
 
@@ -753,7 +740,7 @@ Events.on(engine, "collisionStart", (event) => {
                                 (ball) => ball !== older && ball !== newer,
                             );
                             balls.push(newBall);
-                            playSound("/game/SoundEffect/plong.mp3");
+                            playSoundById("plong-sound");
                             World.add(engine.world, newBall);
                             updateScore(SCORE_TABLE[newIndex]);
                             // 花火アニメーション
@@ -1078,7 +1065,6 @@ gameArea.addEventListener("mouseup", (event) => {
  */
 preloadTextures.then(() => {
     try {
-        preloadSounds();
         updateNextDisplay();
         createMovingBall(nextBallIndex);
         gameStartTime = Date.now();
