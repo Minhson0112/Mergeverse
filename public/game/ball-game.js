@@ -221,6 +221,36 @@ function getDiscordGuildIdFromBlade() {
     return typeof GUILD_ID !== "undefined" ? GUILD_ID : null;
 }
 
+function saveProgressToServer() {
+    try {
+        let discordId = getDiscordIdFromBlade();
+        let discordName = getDiscordUserNameFromBlade();
+        let guildId = getDiscordGuildIdFromBlade();
+        fetch("/api/game-over", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                discord_id: discordId,
+                username: discordName,
+                score: score,
+                sun_time: sunCreateTime,
+                guild_id: guildId,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("✅ Score sent:", data);
+        })
+        .catch(error => {
+            console.error("❌ Error sending score:", error);
+        });
+    } catch (error) {
+        console.error("Error in saveProgressToServer:", error);
+    }
+}
+
 /**
  * EngineとWorldの初期化
  */
@@ -720,7 +750,6 @@ Events.on(engine, "collisionStart", (event) => {
                     const newIndex = ballIndex + 1;
                     if (newIndex >= BALL_TYPES.length - 2 && sunCreateTime === null && gameStartTime !== null) {
                         sunCreateTime = Date.now() - gameStartTime;
-                        console.log("🌞 Đã tạo Mặt Trời sau: " + sunCreateTime + " ms");
                     }
                     if (newIndex >= BALL_TYPES.length - 1) {
                         blackHoleAnimation(newer, older);
@@ -931,29 +960,7 @@ setInterval(() => {
                     );
                     if (velocity < STILLNESS_VELOCITY && !alertFlag) {
                         alertFlag = true;
-                        let discordId = getDiscordIdFromBlade();
-                        let discordName = getDiscordUserNameFromBlade();
-                        let guildId = getDiscordGuildIdFromBlade();
-                        fetch("/api/game-over", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                                discord_id: discordId,
-                                username: discordName,
-                                score: score,
-                                sun_time: sunCreateTime,
-                                guild_id: guildId,
-                            }),
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log("✅ Game data sent successfully:", data);
-                        })
-                        .catch(error => {
-                            console.error("❌ Error sending game data:", error);
-                        });
+                        saveProgressToServer();
                         try {
                             let gameOverModal = new tingle.modal({
                                 footer: true,
@@ -998,6 +1005,12 @@ setInterval(() => {
         console.error("Error in setInterval for touchingLimit:", error);
     }
 }, INTERVAL_TIME * 2);
+
+setInterval(() => {
+    if (!gameOver && gameStartTime !== null) {
+        saveProgressToServer();
+    }
+}, 30000);
 
 let isDragging = false;
 
