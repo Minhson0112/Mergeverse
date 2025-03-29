@@ -114,6 +114,8 @@ const SPAWN_RATE = [
 // ボールのテクスチャサイズ
 const TEXTURESIZE = {};
 
+const soundCache = {};
+
 /**
  * 変数定義
  */
@@ -189,6 +191,19 @@ const preloadTextures = (() => {
         }
     });
 })();
+
+function preloadSounds() {
+    const soundFiles = [
+        "/game/SoundEffect/plong.mp3",
+    ];
+
+    soundFiles.forEach(file => {
+        const audio = new Audio(file);
+        audio.load(); // preload
+        soundCache[file] = audio;
+    });
+}
+
 
 function getDiscordIdFromBlade() {
     return typeof DISCORD_ID !== "undefined" ? DISCORD_ID : null;
@@ -451,9 +466,14 @@ const updateScore = (points = 0) => {
  * @param {string} soundFile // 再生するサウンドファイルのパス
  */
 function playSound(soundFile) {
-    let audio = new Audio(soundFile);
-    audio.volume = 1;
-    audio.play().catch(error => console.error("Error playing sound:", error));
+    const cached = soundCache[soundFile];
+    if (cached) {
+        const clone = cached.cloneNode(); // cho phép overlap âm thanh
+        clone.volume = 1;
+        clone.play().catch(error => console.error("Error playing sound:", error));
+    } else {
+        console.warn("Sound not cached:", soundFile);
+    }
 }
 
 /**
@@ -1058,6 +1078,7 @@ gameArea.addEventListener("mouseup", (event) => {
  */
 preloadTextures.then(() => {
     try {
+        preloadSounds();
         updateNextDisplay();
         createMovingBall(nextBallIndex);
         gameStartTime = Date.now();
