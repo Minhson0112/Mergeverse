@@ -65,9 +65,9 @@
             <div id="rule-content">
                 <p>Giới thiệu trò chơi!</p>
                 <p>🌟 Mục tiêu: Hợp nhất các hành tinh để tạo ra Mặt Trời!</p>
-                <p>🪐 Ghép 2 hành tinh giống nhau để tiến hóa thành hành tinh lớn hơn!</p>
+                <p>🪐 Ghép 2 hành tinh giống nhau để tạo thành hành tinh lớn hơn!</p>
                 <p>💥 Nếu các hành tinh chạm vạch over, trò chơi kết thúc!</p>
-                <p>🚀 Bạn có thể trở thành người tạo ra vũ trụ không!?</p>
+                <p>🚀 Bạn có thể trở thành người rèn sao không!?</p>
             </div>
         </div>
     </div>
