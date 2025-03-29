@@ -25,7 +25,7 @@ class GameOverController extends Controller
 
         if (!$player) {
             // Nếu chưa tồn tại thì tạo mới
-            $this->playersRepo->create([
+            $player = $this->playersRepo->create([
                 'discord_id' => $discordId,
                 'username' => $username,
                 'highest_score' => $score,
