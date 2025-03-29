@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mergeverse</title>
     <link rel="stylesheet" href="{{ asset('game/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.css" />
@@ -80,6 +81,7 @@
     <script>
         const DISCORD_ID = "{{ $discord_id }}";
         const USERNAME = "{{ $username }}";
+        const GUILD_ID = "{{ $guild_id }}";
     </script>
 </body>
 </html>

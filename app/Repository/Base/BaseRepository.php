@@ -34,4 +34,9 @@ abstract class BaseRepository implements BaseRepositoryInterface
     {
         $this->model = app()->make($this->getModel());
     }
+
+    public function create(array $data)
+    {
+        return $this->model->create($data);
+    }
 }

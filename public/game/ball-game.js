@@ -196,6 +196,10 @@ function getDiscordIdFromBlade() {
 function getDiscordUserNameFromBlade() {
     return typeof USERNAME !== "undefined" ? USERNAME : null;
 }
+function getDiscordGuildIdFromBlade() {
+    return typeof GUILD_ID !== "undefined" ? GUILD_ID : null;
+}
+
 /**
  * EngineとWorldの初期化
  */
@@ -903,6 +907,7 @@ setInterval(() => {
                         alertFlag = true;
                         let discordId = getDiscordIdFromBlade();
                         let discordName = getDiscordUserNameFromBlade();
+                        let guildId = getDiscordGuildIdFromBlade();
                         fetch("/api/game-over", {
                             method: "POST",
                             headers: {
@@ -913,6 +918,7 @@ setInterval(() => {
                                 username: discordName,
                                 score: score,
                                 sun_time: sunCreateTime,
+                                guild_id: guildId,
                             }),
                         })
                         .then(response => response.json())
@@ -1030,7 +1036,7 @@ gameArea.addEventListener("mouseup", (event) => {
             setTimeout(() => {
                 try {
                     const currentIndex = nextBallIndex;
-                    nextBallIndex = 8;
+                    nextBallIndex = ballCount < 2 ? 0 : SPAWN_RATE[Math.floor(Math.random() * SPAWN_RATE.length)];
                     updateNextDisplay();
                     createMovingBall(currentIndex);
                     canMoveBall = true;

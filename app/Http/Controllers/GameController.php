@@ -11,13 +11,14 @@ class GameController extends Controller
     {
         $discordId = $request->query('discord_id');
         $userName = $request->query('username');
+        $guildId = $request->query('guild_id');
 
-        if (!$discordId || !$userName) {
+        if (!$discordId || !$userName || !$guildId) {
             return response()->json([
-                'error' => 'missing dicord id or user name'
+                'error' => 'hãy dùng link bot gửi'
             ], 400);
         }
 
-        return view('game.index', ['discord_id' => $discordId, 'username' => $userName]);
+        return view('game.index', ['discord_id' => $discordId, 'username' => $userName, 'guild_id' => $guildId]);
     }
 }

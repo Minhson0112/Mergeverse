@@ -5,10 +5,12 @@ namespace App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repository\Players\PlayersRepositoryInterface;
+use App\Repository\GuildPlayer\GuildPlayerRepositoryInterface;
 class GameOverController extends Controller
 {
     public function __construct(
         protected PlayersRepositoryInterface $playersRepo,
+        protected GuildPlayerRepositoryInterface $GuildPlayerRepo,
     )
     {}
     public function store(Request $request)
@@ -17,6 +19,7 @@ class GameOverController extends Controller
         $username = $request->input('username');
         $score = $request->input('score');
         $sunTime = $request->input('sun_time');
+        $guildId = $request->input('guild_id');
 
         $player = $this->playersRepo->findByDiscordId($discordId);
 
@@ -46,6 +49,17 @@ class GameOverController extends Controller
 
             if (!empty($updatedData)) {
                 $this->playersRepo->update($player->id, $updatedData);
+            }
+        }
+
+        if ($guildId) {
+            $exists = $this->GuildPlayerRepo->exists($player->id, $guildId);
+
+            if (!$exists) {
+                $this->GuildPlayerRepo->create([
+                    'player_id' => $player->id,
+                    'guild_id' => $guildId,
+                ]);
             }
         }
 

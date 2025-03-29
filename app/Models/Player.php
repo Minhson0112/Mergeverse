@@ -8,6 +8,7 @@ class Player extends BaseModel
 
     protected $fillable = [
         'discord_id',
+        'username',
         'highest_score',
         'sun_time',
     ];
