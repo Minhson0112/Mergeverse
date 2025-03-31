@@ -103,4 +103,29 @@ class PlayersRepository extends BaseRepository implements PlayersRepositoryInter
             ->where('sun_time', '<', $sunTime)
             ->count() + 1;
     }
+
+    public function getTop10PlayersRaw()
+    {
+        return $this->model
+            ->orderByDesc('highest_score')
+            ->limit(10)
+            ->get();
+    }
+
+    public function getTop10PlayersByIdsRaw(array $ids)
+    {
+        return $this->model
+            ->whereIn('id', $ids)
+            ->orderByDesc('highest_score')
+            ->limit(10)
+            ->get();
+    }
+
+    public function resetScores()
+    {
+        return $this->model->query()->update([
+            'highest_score' => 0,
+            'sun_time' => null,
+        ]);
+    }
 }

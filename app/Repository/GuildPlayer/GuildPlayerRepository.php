@@ -15,16 +15,25 @@ class GuildPlayerRepository extends BaseRepository implements GuildPlayerReposit
 
     public function exists(int $playerId, string $guildId): bool
     {
-        return GuildPlayer::where('player_id', $playerId)
+        return $this->model
+            ->where('player_id', $playerId)
             ->where('guild_id', $guildId)
             ->exists();
     }
-
+    
     public function getPlayerIdsByGuildId(string $guildId): array
     {
-        return GuildPlayer::where('guild_id', $guildId)
+        return $this->model
+            ->where('guild_id', $guildId)
             ->pluck('player_id')
             ->toArray();
     }
 
+    public function getAllGuildIds(): array
+    {
+        return $this->model
+            ->distinct()
+            ->pluck('guild_id')
+            ->toArray();
+    }
 }

@@ -15,4 +15,7 @@ interface PlayersRepositoryInterface
     public function getSunRankByTime($sunTime);
     public function getFastestSunPlayersByIds(array $playerIds);
     public function getSunRankInGroup(array $playerIds, string $sunTime);
+    public function getTop10PlayersRaw();
+    public function getTop10PlayersByIdsRaw(array $ids);
+    public function resetScores();
 }
